@@ -100,6 +100,7 @@ local function TraceBoundingBox(ply, pos) -- Check if player is blocked using a 
         filter = function(ent) -- Slow but necessary
             if IgnorePlayers:GetInt() > 0 and ent:IsPlayer() then return end -- The ent is a different player (AutoUnstuck_IgnorePlayers ConVar)
             if IgnoreNPCs:GetInt() < 1 and (ent:IsNPC() or ent.Type == "nextbot") then return true end
+            if ent.MapPatcherObject and ent.object.EntShouldCollide then return ent.object:EntShouldCollide(ply) end
 
             local AUBlockOwnProp = true
             if TpIfOwnProps:GetInt() > 0 then -- Allow player to get unstuck from their own entity (if AutoUnstuck_If_PersonalEnt ConVar is on)
